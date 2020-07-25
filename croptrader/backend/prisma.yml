@@ -1,6 +1,7 @@
-endpoint: ${env:PRISMA_ENDPOINT}
+#endpoint: ${env:PRISMA_ENDPOINT}
+endpoint: https://crop-trader-prod-b01c267f55.herokuapp.com/crop-trader-prod/prod
 datamodel: datamodel.graphql
-# secret: ${env:PRISMA_SECRET}
-hooks:  
+secret: ${env:PRISMA_SECRET}
+hooks:
   post-deploy:
-      - graphql get-schema -p prisma
+    - graphql get-schema -p prisma
