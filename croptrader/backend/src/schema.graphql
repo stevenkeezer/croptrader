@@ -11,6 +11,8 @@ type Mutation {
     price: Int
     image: String
     largeImage: String
+    quantity: Int
+    productCode: String
   ): Item!
   updateItem(id: ID!, title: String, description: String, price: Int): Item!
   deleteItem(id: ID!): Item
@@ -22,11 +24,13 @@ type Mutation {
     resetToken: String!
     password: String!
     confirmPassword: String!
+    message: String
   ): User!
   updatePermissions(permissions: [Permission], userId: ID!): User
   addToCart(id: ID!): CartItem
   removeFromCart(id: ID!): CartItem
   createOrder(token: String!): Order!
+  checkout(token: String!): Order!
 }
 
 type Query {
@@ -40,8 +44,10 @@ type Query {
   itemsConnection(where: ItemWhereInput): ItemConnection!
   me: User
   users: [User]!
-  orders(orderBy: OrderOrderByInput): [Order]!
   order(id: ID!): Order
+  orders(orderBy: OrderOrderByInput): [Order]!
+  orderItemConnection(where: ItemWhereInput): ItemConnection!
+  sold(orderBy: OrderOrderByInput, where: ItemWhereUniqueInput): [Order]!
 }
 
 type User {
@@ -50,4 +56,5 @@ type User {
   email: String!
   permissions: [Permission!]!
   cart: [CartItem!]!
+  orders: [OrderItem]!
 }

@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/steven-keezer-0a1dff/crop-trader/dev
-# timestamp: Fri Jul 24 2020 22:07:57 GMT-0700 (Pacific Daylight Time)
+# timestamp: Fri Aug 07 2020 20:28:44 GMT-0700 (Pacific Daylight Time)
 
 type AggregateCartItem {
   count: Int!
@@ -329,6 +329,8 @@ type Item implements Node {
   image: String
   largeImage: String
   price: Int!
+  quantity: Int
+  productCode: String!
   createdAt: DateTime!
   updatedAt: DateTime!
   user: User!
@@ -351,6 +353,8 @@ input ItemCreateInput {
   image: String
   largeImage: String
   price: Int!
+  quantity: Int
+  productCode: String!
   user: UserCreateOneInput!
 }
 
@@ -381,6 +385,10 @@ enum ItemOrderByInput {
   largeImage_DESC
   price_ASC
   price_DESC
+  quantity_ASC
+  quantity_DESC
+  productCode_ASC
+  productCode_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -394,6 +402,8 @@ type ItemPreviousValues {
   image: String
   largeImage: String
   price: Int!
+  quantity: Int
+  productCode: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -443,6 +453,8 @@ input ItemUpdateDataInput {
   image: String
   largeImage: String
   price: Int
+  quantity: Int
+  productCode: String
   user: UserUpdateOneRequiredInput
 }
 
@@ -452,6 +464,8 @@ input ItemUpdateInput {
   image: String
   largeImage: String
   price: Int
+  quantity: Int
+  productCode: String
   user: UserUpdateOneRequiredInput
 }
 
@@ -461,6 +475,8 @@ input ItemUpdateManyMutationInput {
   image: String
   largeImage: String
   price: Int
+  quantity: Int
+  productCode: String
 }
 
 input ItemUpdateOneInput {
@@ -708,6 +724,68 @@ input ItemWhereInput {
 
   """All values greater than or equal the given value."""
   price_gte: Int
+  quantity: Int
+
+  """All values that are not equal to given value."""
+  quantity_not: Int
+
+  """All values that are contained in given list."""
+  quantity_in: [Int!]
+
+  """All values that are not contained in given list."""
+  quantity_not_in: [Int!]
+
+  """All values less than the given value."""
+  quantity_lt: Int
+
+  """All values less than or equal the given value."""
+  quantity_lte: Int
+
+  """All values greater than the given value."""
+  quantity_gt: Int
+
+  """All values greater than or equal the given value."""
+  quantity_gte: Int
+  productCode: String
+
+  """All values that are not equal to given value."""
+  productCode_not: String
+
+  """All values that are contained in given list."""
+  productCode_in: [String!]
+
+  """All values that are not contained in given list."""
+  productCode_not_in: [String!]
+
+  """All values less than the given value."""
+  productCode_lt: String
+
+  """All values less than or equal the given value."""
+  productCode_lte: String
+
+  """All values greater than the given value."""
+  productCode_gt: String
+
+  """All values greater than or equal the given value."""
+  productCode_gte: String
+
+  """All values containing the given string."""
+  productCode_contains: String
+
+  """All values not containing the given string."""
+  productCode_not_contains: String
+
+  """All values starting with the given string."""
+  productCode_starts_with: String
+
+  """All values not starting with the given string."""
+  productCode_not_starts_with: String
+
+  """All values ending with the given string."""
+  productCode_ends_with: String
+
+  """All values not ending with the given string."""
+  productCode_not_ends_with: String
   createdAt: DateTime
 
   """All values that are not equal to given value."""
@@ -855,7 +933,8 @@ type OrderItem implements Node {
   largeImage: String!
   price: Int!
   quantity: Int!
-  user: User
+  productCode: String
+  user: User!
 }
 
 """A connection to a list of items."""
@@ -876,7 +955,8 @@ input OrderItemCreateInput {
   largeImage: String!
   price: Int!
   quantity: Int
-  user: UserCreateOneWithoutOrdersInput
+  productCode: String
+  user: UserCreateOneWithoutOrdersInput!
 }
 
 input OrderItemCreateManyInput {
@@ -897,6 +977,7 @@ input OrderItemCreateWithoutUserInput {
   largeImage: String!
   price: Int!
   quantity: Int
+  productCode: String
 }
 
 """An edge in a connection."""
@@ -923,6 +1004,8 @@ enum OrderItemOrderByInput {
   price_DESC
   quantity_ASC
   quantity_DESC
+  productCode_ASC
+  productCode_DESC
 }
 
 type OrderItemPreviousValues {
@@ -933,6 +1016,7 @@ type OrderItemPreviousValues {
   largeImage: String!
   price: Int!
   quantity: Int!
+  productCode: String
 }
 
 input OrderItemScalarWhereInput {
@@ -1188,6 +1272,46 @@ input OrderItemScalarWhereInput {
 
   """All values greater than or equal the given value."""
   quantity_gte: Int
+  productCode: String
+
+  """All values that are not equal to given value."""
+  productCode_not: String
+
+  """All values that are contained in given list."""
+  productCode_in: [String!]
+
+  """All values that are not contained in given list."""
+  productCode_not_in: [String!]
+
+  """All values less than the given value."""
+  productCode_lt: String
+
+  """All values less than or equal the given value."""
+  productCode_lte: String
+
+  """All values greater than the given value."""
+  productCode_gt: String
+
+  """All values greater than or equal the given value."""
+  productCode_gte: String
+
+  """All values containing the given string."""
+  productCode_contains: String
+
+  """All values not containing the given string."""
+  productCode_not_contains: String
+
+  """All values starting with the given string."""
+  productCode_starts_with: String
+
+  """All values not starting with the given string."""
+  productCode_not_starts_with: String
+
+  """All values ending with the given string."""
+  productCode_ends_with: String
+
+  """All values not ending with the given string."""
+  productCode_not_ends_with: String
 }
 
 type OrderItemSubscriptionPayload {
@@ -1236,7 +1360,8 @@ input OrderItemUpdateDataInput {
   largeImage: String
   price: Int
   quantity: Int
-  user: UserUpdateOneWithoutOrdersInput
+  productCode: String
+  user: UserUpdateOneRequiredWithoutOrdersInput
 }
 
 input OrderItemUpdateInput {
@@ -1246,7 +1371,8 @@ input OrderItemUpdateInput {
   largeImage: String
   price: Int
   quantity: Int
-  user: UserUpdateOneWithoutOrdersInput
+  productCode: String
+  user: UserUpdateOneRequiredWithoutOrdersInput
 }
 
 input OrderItemUpdateManyDataInput {
@@ -1256,6 +1382,7 @@ input OrderItemUpdateManyDataInput {
   largeImage: String
   price: Int
   quantity: Int
+  productCode: String
 }
 
 input OrderItemUpdateManyInput {
@@ -1277,6 +1404,7 @@ input OrderItemUpdateManyMutationInput {
   largeImage: String
   price: Int
   quantity: Int
+  productCode: String
 }
 
 input OrderItemUpdateManyWithoutUserInput {
@@ -1303,6 +1431,7 @@ input OrderItemUpdateWithoutUserDataInput {
   largeImage: String
   price: Int
   quantity: Int
+  productCode: String
 }
 
 input OrderItemUpdateWithWhereUniqueNestedInput {
@@ -1580,6 +1709,46 @@ input OrderItemWhereInput {
 
   """All values greater than or equal the given value."""
   quantity_gte: Int
+  productCode: String
+
+  """All values that are not equal to given value."""
+  productCode_not: String
+
+  """All values that are contained in given list."""
+  productCode_in: [String!]
+
+  """All values that are not contained in given list."""
+  productCode_not_in: [String!]
+
+  """All values less than the given value."""
+  productCode_lt: String
+
+  """All values less than or equal the given value."""
+  productCode_lte: String
+
+  """All values greater than the given value."""
+  productCode_gt: String
+
+  """All values greater than or equal the given value."""
+  productCode_gte: String
+
+  """All values containing the given string."""
+  productCode_contains: String
+
+  """All values not containing the given string."""
+  productCode_not_contains: String
+
+  """All values starting with the given string."""
+  productCode_starts_with: String
+
+  """All values not starting with the given string."""
+  productCode_not_starts_with: String
+
+  """All values ending with the given string."""
+  productCode_ends_with: String
+
+  """All values not ending with the given string."""
+  productCode_not_ends_with: String
   user: UserWhereInput
 }
 
@@ -1888,8 +2057,8 @@ type User implements Node {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
-  orders(where: OrderItemWhereInput, orderBy: OrderItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OrderItem!]
   cart(where: CartItemWhereInput, orderBy: CartItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [CartItem!]
+  orders(where: OrderItemWhereInput, orderBy: OrderItemOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [OrderItem!]
 }
 
 """A connection to a list of items."""
@@ -1910,8 +2079,8 @@ input UserCreateInput {
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
-  orders: OrderItemCreateManyWithoutUserInput
   cart: CartItemCreateManyWithoutUserInput
+  orders: OrderItemCreateManyWithoutUserInput
 }
 
 input UserCreateOneInput {
@@ -2035,8 +2204,8 @@ input UserUpdateDataInput {
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
-  orders: OrderItemUpdateManyWithoutUserInput
   cart: CartItemUpdateManyWithoutUserInput
+  orders: OrderItemUpdateManyWithoutUserInput
 }
 
 input UserUpdateInput {
@@ -2046,8 +2215,8 @@ input UserUpdateInput {
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
-  orders: OrderItemUpdateManyWithoutUserInput
   cart: CartItemUpdateManyWithoutUserInput
+  orders: OrderItemUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -2073,11 +2242,9 @@ input UserUpdateOneRequiredWithoutCartInput {
   upsert: UserUpsertWithoutCartInput
 }
 
-input UserUpdateOneWithoutOrdersInput {
+input UserUpdateOneRequiredWithoutOrdersInput {
   create: UserCreateWithoutOrdersInput
   connect: UserWhereUniqueInput
-  disconnect: Boolean
-  delete: Boolean
   update: UserUpdateWithoutOrdersDataInput
   upsert: UserUpsertWithoutOrdersInput
 }
@@ -2352,12 +2519,12 @@ input UserWhereInput {
 
   """All values greater than or equal the given value."""
   resetTokenExpiry_gte: Float
-  orders_every: OrderItemWhereInput
-  orders_some: OrderItemWhereInput
-  orders_none: OrderItemWhereInput
   cart_every: CartItemWhereInput
   cart_some: CartItemWhereInput
   cart_none: CartItemWhereInput
+  orders_every: OrderItemWhereInput
+  orders_some: OrderItemWhereInput
+  orders_none: OrderItemWhereInput
 }
 
 input UserWhereUniqueInput {
