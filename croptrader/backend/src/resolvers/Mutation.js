@@ -204,7 +204,6 @@ const Mutations = {
     });
     // 3. Check if that item is already in their cart and increment by 1 if it is
     if (existingCartItem) {
-      console.log("This item is already in their cart");
       return ctx.db.mutation.updateCartItem(
         {
           where: { id: existingCartItem.id },
@@ -264,7 +263,7 @@ const Mutations = {
       cart {
         id
         quantity
-        item { title price id description image largeImage productCode }
+        item { title price id description image largeImage productCode user { id name} }
       }}`
     );
     // 2. recalculate the total for the price
@@ -281,13 +280,15 @@ const Mutations = {
     });
     // 4. Convert the CartItems to OrderItems
     const orderItems = user.cart.map((cartItem) => {
-      console.log("cartitem", cartItem);
+      console.log("asdfassssss", cartItem.item.user.name);
       const orderItem = {
         ...cartItem.item,
         quantity: cartItem.quantity,
         user: { connect: { id: userId } },
+        productCode: cartItem.item.id,
+        author: cartItem.item.user.id,
+        authorName: cartItem.item.user.name,
       };
-      console.log(orderItem.id);
       delete orderItem.id;
 
       return orderItem;
@@ -300,6 +301,8 @@ const Mutations = {
         charge: charge.id,
         items: { create: orderItems },
         user: { connect: { id: userId } },
+        brand: charge.source.brand,
+        funding: charge.source.funding,
       },
     });
     // 6. Clean up - clear the users cart, delete cartItems
@@ -319,7 +322,6 @@ const Mutations = {
     if (!userId)
       throw new Error("You must be signed in to complete this order.");
 
-    console.log("PINGED", userId);
     const User = await ctx.db.query.user(
       { where: { id: userId } },
       `{
@@ -336,6 +338,10 @@ const Mutations = {
             description
             image
             largeImage
+            user { 
+              id
+              name
+            }
           }
         }
       }`

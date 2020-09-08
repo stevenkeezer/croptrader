@@ -17,6 +17,7 @@ type User {
   permissions: [Permission] @scalarList(strategy: RELATION)
   cart: [CartItem!]!
   orders: [OrderItem]!
+  items: [Item]!
 }
 
 type Item {
@@ -49,6 +50,8 @@ type OrderItem {
   price: Int!
   quantity: Int! @default(value: 1)
   productCode: String
+  author: String
+  authorName: String
   user: User!
 }
 
@@ -60,4 +63,6 @@ type Order {
   charge: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
+  brand: String
+  funding: String
 }

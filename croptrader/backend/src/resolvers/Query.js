@@ -51,7 +51,6 @@ const Query = {
     return order;
   },
   async orders(parent, args, ctx, info) {
-    console.log("pareart", parent);
     const { userId } = ctx.request;
     if (!userId) {
       throw new Error("you must be signed in!");
@@ -71,7 +70,8 @@ const Query = {
       throw new Error("you must be signed in!");
     }
 
-    return ctx.db.query.orderItems({}, info);
+    // query items products codes
+    return ctx.db.query.orders({}, info);
   },
 };
 
