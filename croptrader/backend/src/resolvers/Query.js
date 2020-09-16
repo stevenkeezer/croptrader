@@ -71,7 +71,7 @@ const Query = {
     }
 
     // query items products codes
-    return ctx.db.query.orders({}, info);
+    return ctx.db.query.orderss({}, info);
   },
 };
 
